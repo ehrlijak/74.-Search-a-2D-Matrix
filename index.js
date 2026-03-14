@@ -36,22 +36,24 @@ function columnSearch(arr, target, pointer, row) {
 }
 
 
-function rowSearch(arr, target, pointer, offset) {
+function rowSearch(arr, target, pointer, lowBound, highBound) {
 
-    var pointer = Math.floor((arr.length - 1) / 2);
 
-    if(arr.length <= 1) {
-        return offset * pointer;
+
+    if(lowBound >= highBound) {
+        return pointer;
     }
-    if (arr[pointer][0] > target) {
-        arr = topHalf(arr);
-        offset+=2;
-        return rowSearch(arr, target, pointer, offset);
+    if (arr[pointer][0] > target && arr[pointer][0] > target) {
+
+        highBound = pointer - 1;
+        pointer = Math.floor((highBound + lowBound )/2);
+        return rowSearch(arr, target, pointer, lowBound, highBound);
     }
-    else if (arr[pointer][0] < target /*&& arr[pointer+1][0] > target */) {
-        arr = lowHalf(arr);
-        offset+=2;
-        return rowSearch(arr, target, pointer, offset);
+    else if (arr[pointer][0] < target && arr[pointer][arr[0].length -1 ] < target) {
+        lowBound = pointer + 1;
+
+        pointer = Math.floor((highBound + lowBound )/2);
+        return rowSearch(arr, target, pointer, lowBound, highBound);
     }
     else {
         return pointer;
@@ -59,8 +61,9 @@ function rowSearch(arr, target, pointer, offset) {
 
 
     }
-    let offset = 0;
-    var row = rowSearch(matrix, target, 0, offset);
+    //let offset = 0;
+    var pointer = Math.floor((matrix.length -1 ) / 2);
+    var row = rowSearch(matrix, target, pointer, 0, matrix.length - 1);
 /*column part work in progress
 We need to find correct row regardless of intention
 */
@@ -73,4 +76,4 @@ We need to find correct row regardless of intention
 };
 
 
-console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 30))
+console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 60))
