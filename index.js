@@ -36,20 +36,22 @@ function columnSearch(arr, target, pointer, row) {
 }
 
 
-function rowSearch(arr, target, pointer) {
+function rowSearch(arr, target, pointer, offset) {
 
     var pointer = Math.floor((arr.length - 1) / 2);
 
     if(arr.length <= 1) {
-        return pointer;
+        return offset * pointer;
     }
     if (arr[pointer][0] > target) {
         arr = topHalf(arr);
-        return rowSearch(arr, target, pointer);
+        offset+=2;
+        return rowSearch(arr, target, pointer, offset);
     }
     else if (arr[pointer][0] < target /*&& arr[pointer+1][0] > target */) {
         arr = lowHalf(arr);
-        return rowSearch(arr, target, pointer);
+        offset+=2;
+        return rowSearch(arr, target, pointer, offset);
     }
     else {
         return pointer;
@@ -57,8 +59,8 @@ function rowSearch(arr, target, pointer) {
 
 
     }
-
-    var row = rowSearch(matrix, target);
+    let offset = 0;
+    var row = rowSearch(matrix, target, 0, offset);
 /*column part work in progress
 We need to find correct row regardless of intention
 */
