@@ -18,19 +18,28 @@ function lowHalf(matrix) {
     }
 
 
-function columnSearch(arr, target, pointer, row) {
+function columnSearch(arr, target, pointer, row, lowBound, highBound) {
 
-    if (arr[row][pointer] > target ) {
 
-        return columnSearch(arr, target, pointer, row);
-
+    if(lowBound >= highBound) {
+        return pointer;
     }
-    else if (arr[row][pointer] < target ) {
-        return columnSearch(arr, target, pointer, row);
+    if (arr[row][pointer] > target && arr[row][pointer] > target) {
+
+        highBound = pointer - 1;
+        pointer = Math.floor((highBound + lowBound )/2);
+        return columnSearch(arr, target, pointer, row, lowBound, highBound);
+    }
+    else if (arr[row][pointer] < target && arr[row][pointer.length -1 ] < target) {
+        lowBound = pointer + 1;
+
+        pointer = Math.floor((highBound + lowBound )/2);
+        return column(arr, target, pointer, row, lowBound, highBound);
     }
     else {
         return pointer;
     }
+
 
 
 }
@@ -61,19 +70,17 @@ function rowSearch(arr, target, pointer, lowBound, highBound) {
 
 
     }
-    //let offset = 0;
+
     var pointer = Math.floor((matrix.length -1 ) / 2);
     var row = rowSearch(matrix, target, pointer, 0, matrix.length - 1);
-/*column part work in progress
-We need to find correct row regardless of intention
-*/
-   // var column = columnSearch(matrix, target, pA, row);
+    pointer = Math.floor((matrix[0].length -1 ) / 2);
+    var column = columnSearch(matrix, target, pointer, row, 0, matrix[0].length - 1);
 
 
 
 
-    return row;
+    return `Row is : ${row} \n Column: ${column}\n`;
 };
 
 
-console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 60))
+console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 16))
