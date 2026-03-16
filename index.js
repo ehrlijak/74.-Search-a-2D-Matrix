@@ -30,11 +30,11 @@ function columnSearch(arr, target, pointer, row, lowBound, highBound) {
         pointer = Math.floor((highBound + lowBound )/2);
         return columnSearch(arr, target, pointer, row, lowBound, highBound);
     }
-    else if (arr[row][pointer] < target && arr[row][pointer.length -1 ] < target) {
+    else if (arr[row][pointer] < target) {
         lowBound = pointer + 1;
 
         pointer = Math.floor((highBound + lowBound )/2);
-        return column(arr, target, pointer, row, lowBound, highBound);
+        return columnSearch(arr, target, pointer, row, lowBound, highBound);
     }
     else {
         return pointer;
@@ -83,4 +83,4 @@ function rowSearch(arr, target, pointer, lowBound, highBound) {
 };
 
 
-console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 16))
+console.log(searchMatrix([[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 30))
